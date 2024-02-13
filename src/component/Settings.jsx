@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 const Settings = () => {
   const [profile, setProfile] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@example.com",
+    firstName: "Harsh",
+    lastName: "Gor",
+    email: "harsh.gor@example.com",
     // Other profile fields
   });
 
