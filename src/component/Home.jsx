@@ -37,7 +37,7 @@ const Home = () => {
     <div style={containerStyle}>
       <h1 style={titleStyle}>Welcome to Library Management System</h1>
       <p style={paragraphStyle}>
-        This is a simple library management system. Click on the links below
+        This is a  library management system. Click on the links below
         to access different functionalities.
       </p>
       <h2>Available Links:</h2>
