@@ -28,9 +28,8 @@ const BookManagementComponent = () => {
     try {
       const newBookWithAvailability = { ...newBook, available: true }; // Add available: true property
       const response = await axios.post(
-        "http://localhost:8080/api/books",
-        newBookWithAvailability,
-        { params: { id: newBook.id } } // Pass the ID as a query parameter
+        `http://localhost:8080/api/books?id=${newBook.id}`, // Pass the ID as a query parameter in the URL
+        newBookWithAvailability
       );
       setBooks([...books, response.data]);
       setNewBook({ id: "", title: "", author: "", genre: "" });
@@ -38,6 +37,7 @@ const BookManagementComponent = () => {
       console.error("Error adding book:", error);
     }
   };
+  
   
   
 
