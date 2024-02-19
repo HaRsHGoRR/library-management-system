@@ -26,9 +26,10 @@ const BookManagementComponent = () => {
   const handleAddBook = async (event) => {
     event.preventDefault();
     try {
+      const newBookWithAvailability = { ...newBook, available: true }; // Add available: true property
       const response = await axios.post(
         "http://localhost:8080/api/books",
-        newBook,
+        newBookWithAvailability,
         { params: { id: newBook.id } } // Pass the ID as a query parameter
       );
       setBooks([...books, response.data]);
@@ -37,6 +38,7 @@ const BookManagementComponent = () => {
       console.error("Error adding book:", error);
     }
   };
+  
   
 
   // Function to handle updating a book
