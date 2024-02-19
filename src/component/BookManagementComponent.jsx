@@ -6,6 +6,7 @@ const BookManagementComponent = () => {
   const [books, setBooks] = useState([]);
   const [newBook, setNewBook] = useState({ title: "", author: "", genre: "" });
   const [selectedBook, setSelectedBook] = useState(null);
+  const [deleteBookId, setDeleteBookId] = useState("");
 
   // Function to fetch books from the backend
   useEffect(() => {
@@ -22,22 +23,20 @@ const BookManagementComponent = () => {
   };
 
   // Function to handle form submission for adding a new book
-  // Function to handle form submission for adding a new book
-const handleAddBook = async (event) => {
-  event.preventDefault();
-  try {
-    const newBookWithAvailability = { ...newBook, available: true }; // Set available to true
-    const response = await axios.post(
-      "http://localhost:8080/api/books",
-      newBookWithAvailability // Send the modified book object with availability set to true
-    );
-    setBooks([...books, response.data]);
-    setNewBook({ title: "", author: "", genre: "" });
-  } catch (error) {
-    console.error("Error adding book:", error);
-  }
-};
-
+  const handleAddBook = async (event) => {
+    event.preventDefault();
+    try {
+      const newBookWithAvailability = { ...newBook, available: true }; // Set available to true
+      const response = await axios.post(
+        "http://localhost:8080/api/books",
+        newBookWithAvailability // Send the modified book object with availability set to true
+      );
+      setBooks([...books, response.data]);
+      setNewBook({ title: "", author: "", genre: "" });
+    } catch (error) {
+      console.error("Error adding book:", error);
+    }
+  };
 
   // Function to handle updating a book
   const handleUpdateBook = async () => {
@@ -57,11 +56,12 @@ const handleAddBook = async (event) => {
   };
 
   // Function to handle deleting a book
-  const handleDeleteBook = async (id) => {
+  const handleDeleteBook = async () => {
     try {
-      await axios.delete(`http://localhost:8080/api/books/${id}`);
-      const updatedBooks = books.filter((book) => book.id !== id);
+      await axios.delete(`http://localhost:8080/api/books/${deleteBookId}`);
+      const updatedBooks = books.filter((book) => book.id !== parseInt(deleteBookId));
       setBooks(updatedBooks);
+      setDeleteBookId(""); // Clear the input field after deletion
     } catch (error) {
       console.error("Error deleting book:", error);
     }
@@ -94,13 +94,20 @@ const handleAddBook = async (event) => {
       <ul>
         {books.map((book) => (
           <li key={book.id}>
-          {book.id} - {book.title} - {book.author} - {book.genre} - {book.available ? 'Available' : 'Not Available'}
-          <button onClick={() => setSelectedBook(book)}>Edit</button>
-          <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
-        </li>
-        
+            {book.id} - {book.title} - {book.author} - {book.genre} - {book.available ? 'Available' : 'Not Available'}
+            <button onClick={() => setSelectedBook(book)}>Edit</button>
+          </li>
         ))}
       </ul>
+      <div>
+        <input
+          type="text"
+          placeholder="Enter Book ID"
+          value={deleteBookId}
+          onChange={(e) => setDeleteBookId(e.target.value)}
+        />
+        <button onClick={handleDeleteBook}>Delete</button>
+      </div>
       {selectedBook && (
         <div>
           <h2>Edit Book</h2>
