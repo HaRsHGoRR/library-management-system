@@ -4,7 +4,7 @@ import axios from "axios";
 const BookManagementComponent = () => {
   // State variables
   const [books, setBooks] = useState([]);
-  const [newBook, setNewBook] = useState({ title: "", author: "", genre: "" });
+  const [newBook, setNewBook] = useState({ id: "", title: "", author: "", genre: "" });
   const [selectedBook, setSelectedBook] = useState(null);
   const [deleteBookId, setDeleteBookId] = useState("");
 
@@ -26,17 +26,18 @@ const BookManagementComponent = () => {
   const handleAddBook = async (event) => {
     event.preventDefault();
     try {
-      const newBookWithAvailability = { ...newBook, available: true }; // Set available to true
       const response = await axios.post(
         "http://localhost:8080/api/books",
-        newBookWithAvailability // Send the modified book object with availability set to true
+        newBook,
+        { params: { id: newBook.id } } // Pass the ID as a query parameter
       );
       setBooks([...books, response.data]);
-      setNewBook({ title: "", author: "", genre: "" });
+      setNewBook({ id: "", title: "", author: "", genre: "" });
     } catch (error) {
       console.error("Error adding book:", error);
     }
   };
+  
 
   // Function to handle updating a book
   const handleUpdateBook = async () => {
@@ -71,6 +72,12 @@ const BookManagementComponent = () => {
     <div>
       <h2>Book Management</h2>
       <form onSubmit={handleAddBook}>
+        <input
+          type="text"
+          placeholder="ID"
+          value={newBook.id}
+          onChange={(e) => setNewBook({ ...newBook, id: e.target.value })}
+        />
         <input
           type="text"
           placeholder="Title"
