@@ -37,9 +37,6 @@ const BookManagementComponent = () => {
       console.error("Error adding book:", error);
     }
   };
-  
-  
-  
 
   // Function to handle updating a book
   const handleUpdateBook = async () => {
@@ -71,8 +68,8 @@ const BookManagementComponent = () => {
   };
 
   return (
-    <div>
-      <h2>Book Management</h2>
+    <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
+      <h2 style={{ color: "blue", textDecoration: "underline" }}>Book Management</h2>
       <form onSubmit={handleAddBook}>
         <input
           type="text"
@@ -98,13 +95,13 @@ const BookManagementComponent = () => {
           value={newBook.genre}
           onChange={(e) => setNewBook({ ...newBook, genre: e.target.value })}
         />
-        <button type="submit">Add Book</button>
+        <button style={{ backgroundColor: "green", color: "white", padding: "5px 10px", margin: "0 10px" }} type="submit">Add Book</button>
       </form>
       <ul>
         {books.map((book) => (
-          <li key={book.id}>
+          <li key={book.id} style={{ margin: "10px 0" }}>
             {book.id} - {book.title} - {book.author} - {book.genre} - {book.available ? 'Available' : 'Not Available'}
-            <button onClick={() => setSelectedBook(book)}>Edit</button>
+            <button style={{ backgroundColor: "blue", color: "white", padding: "3px 5px", marginLeft: "10px" }} onClick={() => setSelectedBook(book)}>Edit</button>
           </li>
         ))}
       </ul>
@@ -114,12 +111,13 @@ const BookManagementComponent = () => {
           placeholder="Enter Book ID"
           value={deleteBookId}
           onChange={(e) => setDeleteBookId(e.target.value)}
+          style={{ marginBottom: "10px" }}
         />
-        <button onClick={handleDeleteBook}>Delete</button>
+        <button style={{ backgroundColor: "red", color: "white", padding: "5px 10px" }} onClick={handleDeleteBook}>Delete</button>
       </div>
       {selectedBook && (
-        <div>
-          <h2>Edit Book</h2>
+        <div style={{ marginTop: "20px", border: "1px solid #ccc", padding: "10px" }}>
+          <h2 style={{ color: "blue", textDecoration: "underline" }}>Edit Book</h2>
           <form onSubmit={handleUpdateBook}>
             <input
               type="text"
@@ -128,6 +126,7 @@ const BookManagementComponent = () => {
               onChange={(e) =>
                 setSelectedBook({ ...selectedBook, title: e.target.value })
               }
+              style={{ marginBottom: "10px" }}
             />
             <input
               type="text"
@@ -136,6 +135,7 @@ const BookManagementComponent = () => {
               onChange={(e) =>
                 setSelectedBook({ ...selectedBook, author: e.target.value })
               }
+              style={{ marginBottom: "10px" }}
             />
             <input
               type="text"
@@ -144,9 +144,10 @@ const BookManagementComponent = () => {
               onChange={(e) =>
                 setSelectedBook({ ...selectedBook, genre: e.target.value })
               }
+              style={{ marginBottom: "10px" }}
             />
-            <button type="submit">Update</button>
-            <button onClick={() => setSelectedBook(null)}>Cancel</button>
+            <button style={{ backgroundColor: "green", color: "white", padding: "5px 10px", marginRight: "10px" }} type="submit">Update</button>
+            <button style={{ backgroundColor: "red", color: "white", padding: "5px 10px" }} onClick={() => setSelectedBook(null)}>Cancel</button>
           </form>
         </div>
       )}
