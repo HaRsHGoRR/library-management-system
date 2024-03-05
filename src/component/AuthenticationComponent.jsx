@@ -1,50 +1,39 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const AuthenticationComponent = () => {
-    // State variables
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+    const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
     const [loginData, setLoginData] = useState({ email: '', password: '' });
-    const [registrationData, setRegistrationData] = useState({ name: '', email: '', password: '' });
-    const [passwordRecoveryData, setPasswordRecoveryData] = useState({ email: '' });
-    const [isUserLogin, setIsUserLogin] = useState(false);
 
-    // Function to handle user login
-    const handleLogin = async (event) => {
+    const handleUserLogin = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/login', loginData);
-            console.log(response.data); // Handle successful login
+            // Make API request to authenticate normal user
+            const response = await axios.post('http://localhost:8080/api/auth/user/login', loginData);
+            setIsUserLoggedIn(true);
+            console.log(response.data); // Handle successful user login
         } catch (error) {
-            console.error('Login failed:', error);
+            console.error('User login failed:', error);
         }
     };
 
-    // Function to handle user registration
-    const handleRegistration = async (event) => {
+    const handleAdminLogin = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/register', registrationData);
-            console.log(response.data); // Handle successful registration
+            // Make API request to authenticate admin
+            const response = await axios.post('http://localhost:8080/api/auth/admin/login', loginData);
+            setIsAdminLoggedIn(true);
+            console.log(response.data); // Handle successful admin login
         } catch (error) {
-            console.error('Registration failed:', error);
+            console.error('Admin login failed:', error);
         }
     };
 
-    // Function to handle password recovery
-    const handlePasswordRecovery = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8080/api/auth/recover-password', passwordRecoveryData);
-            console.log(response.data); // Handle successful password recovery
-        } catch (error) {
-            console.error('Password recovery failed:', error);
-        }
-    };
-
-    // Toggle between user login and admin login
-    const toggleLogin = () => {
-        setIsUserLogin(!isUserLogin);
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setLoginData({ ...loginData, [name]: value });
     };
 
     return (
@@ -53,21 +42,20 @@ const AuthenticationComponent = () => {
             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                 <div>
                     <h3>Normal User Login</h3>
-                    <form onSubmit={handleLogin}>
-                        <input type="email" placeholder="Email" value={loginData.email} onChange={(e) => setLoginData({ ...loginData, email: e.target.value })} />
-                        <input type="password" placeholder="Password" value={loginData.password} onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} />
+                    <form onSubmit={handleUserLogin}>
+                        <input type="email" name="email" placeholder="Email" value={loginData.email} onChange={handleInputChange} />
+                        <input type="password" name="password" placeholder="Password" value={loginData.password} onChange={handleInputChange} />
                         <button type="submit">Login</button>
                     </form>
                     <Link to="/normal-user-registration">Register as Normal User</Link>
                 </div>
                 <div>
                     <h3>Admin Login</h3>
-                    <form onSubmit={handleLogin}>
-                        <input type="email" placeholder="Email" value={loginData.email} onChange={(e) => setLoginData({ ...loginData, email: e.target.value })} />
-                        <input type="password" placeholder="Password" value={loginData.password} onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} />
+                    <form onSubmit={handleAdminLogin}>
+                        <input type="email" name="email" placeholder="Email" value={loginData.email} onChange={handleInputChange} />
+                        <input type="password" name="password" placeholder="Password" value={loginData.password} onChange={handleInputChange} />
                         <button type="submit">Login</button>
                     </form>
-                    <Link to="/admin-registration">Register as Admin</Link>
                 </div>
             </div>
         </div>
