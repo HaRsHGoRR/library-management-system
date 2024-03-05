@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const AuthenticationComponent = () => {
     // State variables
     const [loginData, setLoginData] = useState({ email: '', password: '' });
     const [registrationData, setRegistrationData] = useState({ name: '', email: '', password: '' });
     const [passwordRecoveryData, setPasswordRecoveryData] = useState({ email: '' });
+    const [isUserLogin, setIsUserLogin] = useState(false);
 
     // Function to handle user login
     const handleLogin = async (event) => {
@@ -40,24 +42,34 @@ const AuthenticationComponent = () => {
         }
     };
 
+    // Toggle between user login and admin login
+    const toggleLogin = () => {
+        setIsUserLogin(!isUserLogin);
+    };
+
     return (
         <div>
             <h2>Authentication</h2>
-            <form onSubmit={handleLogin}>
-                <input type="email" placeholder="Email" value={loginData.email} onChange={(e) => setLoginData({ ...loginData, email: e.target.value })} />
-                <input type="password" placeholder="Password" value={loginData.password} onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} />
-                <button type="submit">Login</button>
-            </form>
-            <form onSubmit={handleRegistration}>
-                <input type="text" placeholder="Name" value={registrationData.name} onChange={(e) => setRegistrationData({ ...registrationData, name: e.target.value })} />
-                <input type="email" placeholder="Email" value={registrationData.email} onChange={(e) => setRegistrationData({ ...registrationData, email: e.target.value })} />
-                <input type="password" placeholder="Password" value={registrationData.password} onChange={(e) => setRegistrationData({ ...registrationData, password: e.target.value })} />
-                <button type="submit">Register</button>
-            </form>
-            <form onSubmit={handlePasswordRecovery}>
-                <input type="email" placeholder="Email" value={passwordRecoveryData.email} onChange={(e) => setPasswordRecoveryData({ ...passwordRecoveryData, email: e.target.value })} />
-                <button type="submit">Recover Password</button>
-            </form>
+            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <div>
+                    <h3>Normal User Login</h3>
+                    <form onSubmit={handleLogin}>
+                        <input type="email" placeholder="Email" value={loginData.email} onChange={(e) => setLoginData({ ...loginData, email: e.target.value })} />
+                        <input type="password" placeholder="Password" value={loginData.password} onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} />
+                        <button type="submit">Login</button>
+                    </form>
+                    <Link to="/normal-user-registration">Register as Normal User</Link>
+                </div>
+                <div>
+                    <h3>Admin Login</h3>
+                    <form onSubmit={handleLogin}>
+                        <input type="email" placeholder="Email" value={loginData.email} onChange={(e) => setLoginData({ ...loginData, email: e.target.value })} />
+                        <input type="password" placeholder="Password" value={loginData.password} onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} />
+                        <button type="submit">Login</button>
+                    </form>
+                    <Link to="/admin-registration">Register as Admin</Link>
+                </div>
+            </div>
         </div>
     );
 };

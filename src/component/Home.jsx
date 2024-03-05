@@ -42,12 +42,12 @@ const Home = () => {
       </p>
       <h2>Available Links:</h2>
       <ul style={{ listStyleType: 'none', padding: 0 }}>
-        <li>
+        {/* <li>
           <Link to="/book-management" style={linkStyle}>Book Management</Link>
         </li>
         <li>
           <Link to="/borrower-management" style={linkStyle}>Borrower Management</Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/authentication" style={linkStyle}>Authentication</Link>
         </li>

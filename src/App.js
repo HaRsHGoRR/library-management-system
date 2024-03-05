@@ -9,6 +9,8 @@ import SearchComponent from './component/SearchComponent';
 import AdminPanelComponent from './component/AdminPanelComponent';
 import NotificationSettings from './component/NotificationSettings';
 import Settings from './component/Settings';
+import NormalUserLogin from './component/NormalUserLogin';
+import AdminLogin from './component/AdminLogin';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/admin-panel" element={<AdminPanelComponent />} />
         <Route path="/notification-settings" element={<NotificationSettings />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path='/normal-user-registration' element={<NormalUserLogin />}/>
+        <Route path='/admin-registration' element={<AdminLogin />}/>
       </Routes>
     </Router>
   );
