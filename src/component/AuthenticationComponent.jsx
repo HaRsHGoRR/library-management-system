@@ -6,6 +6,19 @@ const AuthenticationComponent = () => {
     const [isUserAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
     const [userLoginData, setUserLoginData] = useState({ email: '', password: '' });
     const [adminLoginData, setAdminLoginData] = useState({ email: '', password: '' });
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastStyle, setToastStyle] = useState({});
+
+    const showToast = (message, type) => {
+        setToastMessage(message);
+        setToastStyle({
+            display: 'block',
+            backgroundColor: type === 'success' ? '#28a745' : '#dc3545'
+        });
+        setTimeout(() => {
+            setToastStyle({ display: 'none' });
+        }, 3000);
+    };
 
     const handleUserLogin = async (event) => {
         event.preventDefault();
@@ -14,12 +27,13 @@ const AuthenticationComponent = () => {
             if (response.data && response.data.password === userLoginData.password) {
                 setIsUserLoggedIn(true);
                 setIsAdminLoggedIn(false);
-                console.log('User login successful');
+                showToast('User login successful', 'success');
             } else {
-                console.log('Invalid credentials');
+                showToast('Invalid credentials', 'error');
             }
         } catch (error) {
             console.error('User login failed:', error);
+            showToast('Error logging in', 'error');
         }
     };
 
@@ -30,12 +44,13 @@ const AuthenticationComponent = () => {
             if (response.data && response.data.password === adminLoginData.password) {
                 setIsAdminLoggedIn(true);
                 setIsUserLoggedIn(false);
-                console.log('Admin login successful');
+                showToast('Admin login successful', 'success');
             } else {
-                console.log('Invalid credentials');
+                showToast('Invalid credentials', 'error');
             }
         } catch (error) {
             console.error('Admin login failed:', error);
+            showToast('Error logging in', 'error');
         }
     };
 
@@ -68,6 +83,9 @@ const AuthenticationComponent = () => {
                     <input type="password" name="password" placeholder="Password" value={adminLoginData.password} onChange={handleAdminInputChange} />
                     <button type="submit">Login</button>
                 </form>
+            </div>
+            <div style={{ ...toastStyle, position: 'fixed', top: '10px', right: '10px', padding: '10px', borderRadius: '4px', color: '#fff' }}>
+                {toastMessage}
             </div>
         </div>
     );
