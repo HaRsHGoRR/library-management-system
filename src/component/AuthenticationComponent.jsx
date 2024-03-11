@@ -5,6 +5,12 @@ const AuthenticationComponent = () => {
     const [isBorrowerLoggedIn, setIsBorrowerLoggedIn] = useState(false);
     const [isUserAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
     const [borrowerLoginData, setBorrowerLoginData] = useState({ email: '', password: '' });
+    const [borrowerRegistrationData, setBorrowerRegistrationData] = useState({
+        name: '',
+        email: '',
+        contactNumber: '',
+        password: ''
+    });
     const [adminLoginData, setAdminLoginData] = useState({ email: '', password: '' });
     const [toastMessage, setToastMessage] = useState('');
     const [toastStyle, setToastStyle] = useState({});
@@ -29,10 +35,8 @@ const AuthenticationComponent = () => {
                 if (password.password === borrowerLoginData.password) {
                     setIsBorrowerLoggedIn(true);
                     setIsAdminLoggedIn(false);
-                  //  console.log(password.password);
                     showToast('Borrower login successful', 'success');
                 } else {
-                    
                     showToast('Invalid credentials', 'error');
                 }
             } else {
@@ -43,7 +47,21 @@ const AuthenticationComponent = () => {
             showToast('Error logging in', 'error');
         }
     };
-    
+
+    const handleBorrowerRegistration = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8080/api/borrowers/register', borrowerRegistrationData);
+            if (response.status >= 200 && response.status < 300) {
+                showToast('Borrower registration successful', 'success');
+            } else {
+                showToast('Failed to register borrower', 'error');
+            }
+        } catch (error) {
+            console.error('Error registering borrower:', error);
+            showToast('Error registering borrower', 'error');
+        }
+    };
 
     const handleAdminLogin = async (event) => {
         event.preventDefault();
@@ -62,10 +80,14 @@ const AuthenticationComponent = () => {
         }
     };
 
-
-    const handleBorrowerInputChange = (event) => {
+    const handleBorrowerLoginInputChange = (event) => {
         const { name, value } = event.target;
         setBorrowerLoginData({ ...borrowerLoginData, [name]: value });
+    };
+
+    const handleBorrowerRegistrationInputChange = (event) => {
+        const { name, value } = event.target;
+        setBorrowerRegistrationData({ ...borrowerRegistrationData, [name]: value });
     };
 
     const handleAdminInputChange = (event) => {
@@ -79,9 +101,19 @@ const AuthenticationComponent = () => {
             <div>
                 <h3>Borrower Login</h3>
                 <form onSubmit={handleBorrowerLogin}>
-                    <input type="email" name="email" placeholder="Email" value={borrowerLoginData.email} onChange={handleBorrowerInputChange} />
-                    <input type="password" name="password" placeholder="Password" value={borrowerLoginData.password} onChange={handleBorrowerInputChange} />
+                    <input type="email" name="email" placeholder="Email" value={borrowerLoginData.email} onChange={handleBorrowerLoginInputChange} />
+                    <input type="password" name="password" placeholder="Password" value={borrowerLoginData.password} onChange={handleBorrowerLoginInputChange} />
                     <button type="submit">Login</button>
+                </form>
+            </div>
+            <div>
+                <h3>Borrower Registration</h3>
+                <form onSubmit={handleBorrowerRegistration}>
+                    <input type="text" name="name" placeholder="Name" value={borrowerRegistrationData.name} onChange={handleBorrowerRegistrationInputChange} />
+                    <input type="email" name="email" placeholder="Email" value={borrowerRegistrationData.email} onChange={handleBorrowerRegistrationInputChange} />
+                    <input type="text" name="contactNumber" placeholder="Contact Number" value={borrowerRegistrationData.contactNumber} onChange={handleBorrowerRegistrationInputChange} />
+                    <input type="password" name="password" placeholder="Password" value={borrowerRegistrationData.password} onChange={handleBorrowerRegistrationInputChange} />
+                    <button type="submit">Register</button>
                 </form>
             </div>
             <div>

@@ -9,7 +9,8 @@ const BorrowerManagementComponent = () => {
     const [newBorrowerData, setNewBorrowerData] = useState({
         name: '',
         email: '',
-        contactNumber: ''
+        contactNumber: '',
+        password: '' // New field for password
     });
     const [showAddForm, setShowAddForm] = useState(false);
 
@@ -45,10 +46,10 @@ const BorrowerManagementComponent = () => {
     // Function to add a new borrower
     const handleAddBorrower = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/borrowers/add', newBorrowerData);
+            const response = await axios.post('http://localhost:8080/api/borrowers/register', newBorrowerData);
             setBorrowers([...borrowers, response.data]);
             setShowAddForm(false); // Close the form after adding borrower
-            setNewBorrowerData({ name: '', email: '', contactNumber: '' }); // Reset form data
+            setNewBorrowerData({ name: '', email: '', contactNumber: '', password: '' }); // Reset form data
         } catch (error) {
             setError('Error adding borrower. Please try again later.');
             console.error('Error adding borrower:', error);
@@ -86,6 +87,12 @@ const BorrowerManagementComponent = () => {
                         placeholder="Contact Number"
                         value={newBorrowerData.contactNumber}
                         onChange={(e) => setNewBorrowerData({ ...newBorrowerData, contactNumber: e.target.value })}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password" // New input for password
+                        value={newBorrowerData.password}
+                        onChange={(e) => setNewBorrowerData({ ...newBorrowerData, password: e.target.value })}
                     />
                     <button onClick={handleAddBorrower}>Add</button>
                 </div>
