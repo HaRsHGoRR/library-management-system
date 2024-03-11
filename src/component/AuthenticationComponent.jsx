@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const AuthenticationComponent = () => {
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+    const [isBorrowerLoggedIn, setIsBorrowerLoggedIn] = useState(false);
     const [isUserAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-    const [userLoginData, setUserLoginData] = useState({ email: '', password: '' });
+    const [borrowerLoginData, setBorrowerLoginData] = useState({ email: '', password: '' });
     const [adminLoginData, setAdminLoginData] = useState({ email: '', password: '' });
     const [toastMessage, setToastMessage] = useState('');
     const [toastStyle, setToastStyle] = useState({});
@@ -20,22 +20,30 @@ const AuthenticationComponent = () => {
         }, 3000);
     };
 
-    const handleUserLogin = async (event) => {
+    const handleBorrowerLogin = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.get(`http://localhost:8080/api/auth/user/${userLoginData.email}`);
-            if (response.data && response.data.password === userLoginData.password) {
-                setIsUserLoggedIn(true);
-                setIsAdminLoggedIn(false);
-                showToast('User login successful', 'success');
+            const response = await axios.post(`http://localhost:8080/api/borrowers/get/${borrowerLoginData.email}`);
+            if (response.status === 200) {
+                const password = response.data;
+                if (password.password === borrowerLoginData.password) {
+                    setIsBorrowerLoggedIn(true);
+                    setIsAdminLoggedIn(false);
+                  //  console.log(password.password);
+                    showToast('Borrower login successful', 'success');
+                } else {
+                    
+                    showToast('Invalid credentials', 'error');
+                }
             } else {
                 showToast('Invalid credentials', 'error');
             }
         } catch (error) {
-            console.error('User login failed:', error);
+            console.error('Borrower login failed:', error);
             showToast('Error logging in', 'error');
         }
     };
+    
 
     const handleAdminLogin = async (event) => {
         event.preventDefault();
@@ -43,7 +51,7 @@ const AuthenticationComponent = () => {
             const response = await axios.get(`http://localhost:8080/api/auth/admin/${adminLoginData.email}`);
             if (response.data && response.data.password === adminLoginData.password) {
                 setIsAdminLoggedIn(true);
-                setIsUserLoggedIn(false);
+                setIsBorrowerLoggedIn(false);
                 showToast('Admin login successful', 'success');
             } else {
                 showToast('Invalid credentials', 'error');
@@ -55,9 +63,9 @@ const AuthenticationComponent = () => {
     };
 
 
-    const handleUserInputChange = (event) => {
+    const handleBorrowerInputChange = (event) => {
         const { name, value } = event.target;
-        setUserLoginData({ ...userLoginData, [name]: value });
+        setBorrowerLoginData({ ...borrowerLoginData, [name]: value });
     };
 
     const handleAdminInputChange = (event) => {
@@ -69,10 +77,10 @@ const AuthenticationComponent = () => {
         <div>
             <h2>Authentication</h2>
             <div>
-                <h3>Normal User Login</h3>
-                <form onSubmit={handleUserLogin}>
-                    <input type="email" name="email" placeholder="Email" value={userLoginData.email} onChange={handleUserInputChange} />
-                    <input type="password" name="password" placeholder="Password" value={userLoginData.password} onChange={handleUserInputChange} />
+                <h3>Borrower Login</h3>
+                <form onSubmit={handleBorrowerLogin}>
+                    <input type="email" name="email" placeholder="Email" value={borrowerLoginData.email} onChange={handleBorrowerInputChange} />
+                    <input type="password" name="password" placeholder="Password" value={borrowerLoginData.password} onChange={handleBorrowerInputChange} />
                     <button type="submit">Login</button>
                 </form>
             </div>
