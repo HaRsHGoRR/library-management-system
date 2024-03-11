@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { useAuthState } from './AuthState';
 const AuthenticationComponent = () => {
-    const [isBorrowerLoggedIn, setIsBorrowerLoggedIn] = useState(false);
-    const [isUserAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+
+    const { isBorrowerLoggedIn, setIsBorrowerLoggedIn, isUserAdminLoggedIn, setIsAdminLoggedIn } = useAuthState();
+
+
+   
     const [borrowerLoginData, setBorrowerLoginData] = useState({ email: '', password: '' });
     const [borrowerRegistrationData, setBorrowerRegistrationData] = useState({
         name: '',
@@ -14,7 +17,6 @@ const AuthenticationComponent = () => {
     const [adminLoginData, setAdminLoginData] = useState({ email: '', password: '' });
     const [toastMessage, setToastMessage] = useState('');
     const [toastStyle, setToastStyle] = useState({});
-
     const showToast = (message, type) => {
         setToastMessage(message);
         setToastStyle({
@@ -32,7 +34,6 @@ const AuthenticationComponent = () => {
             setToastStyle({ display: 'none' });
         }, 3000);
     };
-
     const handleBorrowerLogin = async (event) => {
         event.preventDefault();
         try {
@@ -40,8 +41,26 @@ const AuthenticationComponent = () => {
             if (response.status === 200) {
                 const password = response.data;
                 if (password.password === borrowerLoginData.password) {
-                    setIsBorrowerLoggedIn(true);
+                    //setIsBorrowerLoggedIn(true);
                     setIsAdminLoggedIn(false);
+                    sessionStorage.setItem('isBorrowerLoggedIn', 'true');
+                    
+
+                    // Assuming you have the logged-in borrower object stored in a variable named loggedInBorrower
+
+// Convert the borrower object to a JSON string
+                    const borrowerDataString = JSON.stringify(borrowerLoginData);
+console.log(borrowerDataString)
+// Set the borrower data string to the session storage
+                    sessionStorage.setItem('borrowerData', borrowerDataString);
+
+
+
+
+
+
+
+                    console.log(sessionStorage.getItem('isBorrowerLoggedIn'));
                     showToast('Borrower login successful', 'success');
                 } else {
                     showToast('Invalid credentials', 'error');
@@ -83,6 +102,7 @@ const AuthenticationComponent = () => {
                 setIsAdminLoggedIn(true);
                 setIsBorrowerLoggedIn(false);
                 showToast('Admin login successful', 'success');
+                console.log(isUserAdminLoggedIn);
             } else {
                 showToast('Invalid credentials', 'error');
             }
@@ -106,7 +126,7 @@ const AuthenticationComponent = () => {
         const { name, value } = event.target;
         setAdminLoginData({ ...adminLoginData, [name]: value });
     };
-
+      
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h2 style={{ marginBottom: '20px', color: '#007bff' }}>Authentication</h2>
@@ -142,6 +162,8 @@ const AuthenticationComponent = () => {
             </div>
         </div>
     );
+    
 };
 
 export default AuthenticationComponent;
+

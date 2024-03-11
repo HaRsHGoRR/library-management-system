@@ -21,8 +21,9 @@ const BorrowerManagementComponent = () => {
 
     const fetchBorrowers = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/borrowers/withBooks');
+            const response = await axios.get('http://localhost:8080/api/borrowers/alll');
             setBorrowers(response.data);
+            console.log(response.data);
         } catch (error) {
             setError('Error fetching borrowers. Please try again later.');
             console.error('Error fetching borrowers:', error);
@@ -104,12 +105,7 @@ const BorrowerManagementComponent = () => {
                             <strong>Name:</strong> {borrower.name}<br />
                             <strong>Email:</strong> {borrower.email}<br />
                             <strong>Contact Number:</strong> {borrower.contactNumber}<br />
-                            <strong>Books Borrowed:</strong>
-                            <ul>
-                                {borrower.booksBorrowed && borrower.booksBorrowed.map((book) => (
-                                    <li key={book.id}>{book.title} by {book.author}</li>
-                                ))}
-                            </ul>
+                            <strong>Book ID:</strong> {borrower.bookid}<br />
                         </div>
                         <button onClick={() => handleRemoveBorrower(borrower.id)}>Remove</button>
                     </li>

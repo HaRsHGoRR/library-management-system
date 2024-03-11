@@ -11,8 +11,10 @@ import NotificationSettings from './component/NotificationSettings';
 import Settings from './component/Settings';
 import NormalUserRegister from './component/NormalUserRegister';
 import AdminRegister from './component/AdminRegister';
+import { useAuthState } from './component/AuthState';
 
 function App() {
+  const { isBorrowerLoggedIn, setIsBorrowerLoggedIn, isUserAdminLoggedIn, setIsAdminLoggedIn } = useAuthState();
   return (
     <Router>
       <Routes>
