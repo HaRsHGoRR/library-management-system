@@ -4,6 +4,11 @@ import { useAuthState } from './AuthState';
 import { toast } from 'react-toastify';
 
 const SearchComponent = () => {
+    const loggedin = sessionStorage.getItem('isBorrowerLoggedIn');
+  if(!loggedin)
+  {
+    return(<>Please Login</>)
+  }
     // State variables
     const  isBorrowerLoggedIn  = sessionStorage.getItem('isBorrowerLoggedIn');
     console.log("isBorrowerLoggedIn:", isBorrowerLoggedIn); 

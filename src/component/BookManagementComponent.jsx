@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const BookManagementComponent = () => {
+  const loggedin = sessionStorage.getItem('isBorrowerLoggedIn');
+  if(!loggedin)
+  {
+    return(<>Please Login</>)
+  }
   // State variables
   const [books, setBooks] = useState([]);
   const [newBook, setNewBook] = useState({ id: "", title: "", author: "", genre: "" });
