@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+  const loggedin = sessionStorage.getItem('isBorrowerLoggedIn');
+  if(!loggedin)
+  {
+    return(<>Please Login</>)
+  }
   const containerStyle = {
     textAlign: 'center',
     margin: '50px auto',
@@ -48,9 +53,9 @@ const Home = () => {
         <li>
           <Link to="/borrower-management" style={linkStyle}>Borrower Management</Link>
         </li> */}
-        <li>
+        {/* <li>
           <Link to="/authentication" style={linkStyle}>Authentication</Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/search" style={linkStyle}>Search</Link>
         </li>
@@ -60,12 +65,7 @@ const Home = () => {
         <li>
           <Link to="/admin-panel" style={linkStyle}>Admin Panel</Link>
         </li>
-        <li>
-          <Link to="/notification-settings" style={linkStyle}>Notification Settings</Link>
-        </li>
-        <li>
-          <Link to="/settings" style={linkStyle}>Settings</Link>
-        </li>
+       
       </ul>
     </div>
   );

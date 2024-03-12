@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuthState } from './AuthState';
-const AuthenticationComponent = () => {
+import { Link } from 'react-router-dom';
 
+const AuthenticationComponent = () => {
     const { isBorrowerLoggedIn, setIsBorrowerLoggedIn, isUserAdminLoggedIn, setIsAdminLoggedIn } = useAuthState();
 
-
-   
     const [borrowerLoginData, setBorrowerLoginData] = useState({ email: '', password: '' });
     const [borrowerRegistrationData, setBorrowerRegistrationData] = useState({
         name: '',
@@ -17,6 +16,7 @@ const AuthenticationComponent = () => {
     const [adminLoginData, setAdminLoginData] = useState({ email: '', password: '' });
     const [toastMessage, setToastMessage] = useState('');
     const [toastStyle, setToastStyle] = useState({});
+
     const showToast = (message, type) => {
         setToastMessage(message);
         setToastStyle({
@@ -34,6 +34,7 @@ const AuthenticationComponent = () => {
             setToastStyle({ display: 'none' });
         }, 3000);
     };
+
     const handleBorrowerLogin = async (event) => {
         event.preventDefault();
         try {
@@ -41,26 +42,11 @@ const AuthenticationComponent = () => {
             if (response.status === 200) {
                 const password = response.data;
                 if (password.password === borrowerLoginData.password) {
-                    //setIsBorrowerLoggedIn(true);
                     setIsAdminLoggedIn(false);
+                    setIsBorrowerLoggedIn(true);
                     sessionStorage.setItem('isBorrowerLoggedIn', 'true');
-                    
-
-                    // Assuming you have the logged-in borrower object stored in a variable named loggedInBorrower
-
-// Convert the borrower object to a JSON string
                     const borrowerDataString = JSON.stringify(borrowerLoginData);
-console.log(borrowerDataString)
-// Set the borrower data string to the session storage
                     sessionStorage.setItem('borrowerData', borrowerDataString);
-
-
-
-
-
-
-
-                    console.log(sessionStorage.getItem('isBorrowerLoggedIn'));
                     showToast('Borrower login successful', 'success');
                 } else {
                     showToast('Invalid credentials', 'error');
@@ -76,7 +62,6 @@ console.log(borrowerDataString)
 
     const handleBorrowerRegistration = async (event) => {
         event.preventDefault();
-        // Check if any required field is empty
         if (!borrowerRegistrationData.name || !borrowerRegistrationData.email || !borrowerRegistrationData.contactNumber || !borrowerRegistrationData.password) {
             showToast('All fields are required', 'error');
             return;
@@ -102,7 +87,6 @@ console.log(borrowerDataString)
                 setIsAdminLoggedIn(true);
                 setIsBorrowerLoggedIn(false);
                 showToast('Admin login successful', 'success');
-                console.log(isUserAdminLoggedIn);
             } else {
                 showToast('Invalid credentials', 'error');
             }
@@ -126,7 +110,7 @@ console.log(borrowerDataString)
         const { name, value } = event.target;
         setAdminLoginData({ ...adminLoginData, [name]: value });
     };
-      
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h2 style={{ marginBottom: '20px', color: '#007bff' }}>Authentication</h2>
@@ -157,13 +141,12 @@ console.log(borrowerDataString)
                     <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
                 </form>
             </div>
+            <Link to="/home" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', textDecoration: 'none' }}>Go to Home</Link>
             <div style={{ ...toastStyle }}>
                 {toastMessage}
             </div>
         </div>
     );
-    
 };
 
 export default AuthenticationComponent;
-

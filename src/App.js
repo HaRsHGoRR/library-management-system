@@ -18,10 +18,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<AuthenticationComponent />} />
         <Route path="/book-management" element={<BookManagementComponent />} />
         <Route path="/borrower-management" element={<BorrowerManagementComponent />} />
-        <Route path="/authentication" element={<AuthenticationComponent />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/search" element={<SearchComponent />} />
         {/* <Route path="/dashboard" element={<DashboardComponent />} /> */}
         <Route path="/admin-panel" element={<AdminPanelComponent />} />
