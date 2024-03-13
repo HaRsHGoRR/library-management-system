@@ -4,11 +4,8 @@ import { useAuthState } from './AuthState';
 import { toast } from 'react-toastify';
 
 const SearchComponent = () => {
-    const loggedin = sessionStorage.getItem('isBorrowerLoggedIn');
-  if(!loggedin)
-  {
-    return(<>Please Login</>)
-  }
+
+    
     // State variables
     const  isBorrowerLoggedIn  = sessionStorage.getItem('isBorrowerLoggedIn');
     console.log("isBorrowerLoggedIn:", isBorrowerLoggedIn); 
@@ -56,6 +53,12 @@ const SearchComponent = () => {
     useEffect(() => {
         console.log("Search results:", searchResults);
     }, [searchResults]);
+
+    const loggedin = sessionStorage.getItem('isBorrowerLoggedIn');
+  if(!loggedin)
+  {
+    return(<>Please Login</>)
+  }
 
     return (
         <div>
