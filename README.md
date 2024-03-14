@@ -32,6 +32,19 @@ Welcome to our Library Management System! This project is designed to help libra
 - **Spring Security**: Spring Security is used for secure authentication and authorization.
 - **PostgreSQL**: PostgreSQL is used as the relational database management system to store information about books, users, and borrowing history.
 
+
+
+## Additional Notes
+
+- Implement proper validation for user inputs.
+- Handle errors and edge cases gracefully.
+- Enhance the UI/UX for better user experience.
+- Implement pagination for book lists if dealing with a large number of records.
+- Add login and signup pages for users. Admin functionalities should be accessible after admin login.
+- Implement functionalities for adding books to the user's reading list.
+
+
+
 ## Running the Project
 
 To run the project locally, follow these steps:
@@ -49,7 +62,9 @@ To run the project locally, follow these steps:
 
 Our Library Management System provides a user-friendly interface for both admins and users to efficiently manage library resources. With features like book management, user authentication, and borrowing capabilities, this system aims to streamline library operations and enhance the borrowing experience for users. Built with Spring Boot, Hibernate, HTML, CSS, JavaScript, and PostgreSQL, it offers a robust and scalable solution for libraries of all sizes.
 
+## Contributors
 
+- Harsh Gor
 
 # Getting Started with Create React App
 
