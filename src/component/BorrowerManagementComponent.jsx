@@ -6,13 +6,6 @@ const BorrowerManagementComponent = () => {
     const [borrowers, setBorrowers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [newBorrowerData, setNewBorrowerData] = useState({
-        name: '',
-        email: '',
-        contactNumber: '',
-        password: '' // New field for password
-    });
-    const [showAddForm, setShowAddForm] = useState(false);
 
     // Function to fetch borrowers from the backend
     useEffect(() => {
@@ -23,7 +16,6 @@ const BorrowerManagementComponent = () => {
         try {
             const response = await axios.get('http://localhost:8080/api/borrowers/alll');
             setBorrowers(response.data);
-            console.log(response.data);
         } catch (error) {
             setError('Error fetching borrowers. Please try again later.');
             console.error('Error fetching borrowers:', error);
@@ -44,70 +36,27 @@ const BorrowerManagementComponent = () => {
         }
     };
 
-    // Function to add a new borrower
-    const handleAddBorrower = async () => {
-        try {
-            const response = await axios.post('http://localhost:8080/api/borrowers/register', newBorrowerData);
-            setBorrowers([...borrowers, response.data]);
-            setShowAddForm(false); // Close the form after adding borrower
-            setNewBorrowerData({ name: '', email: '', contactNumber: '', password: '' }); // Reset form data
-        } catch (error) {
-            setError('Error adding borrower. Please try again later.');
-            console.error('Error adding borrower:', error);
-        }
-    };
-
     if (loading) {
-        return <div>Loading...</div>;
+        return <div style={{ textAlign: 'center', marginTop: '20px' }}>Loading...</div>;
     }
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return <div style={{ textAlign: 'center', marginTop: '20px', color: 'red' }}>Error: {error}</div>;
     }
 
     return (
-        <div>
-            <h2>Borrower Management</h2>
-            <button onClick={() => setShowAddForm(true)}>Add Borrower</button>
-            {showAddForm && (
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        value={newBorrowerData.name}
-                        onChange={(e) => setNewBorrowerData({ ...newBorrowerData, name: e.target.value })}
-                    />
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={newBorrowerData.email}
-                        onChange={(e) => setNewBorrowerData({ ...newBorrowerData, email: e.target.value })}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Contact Number"
-                        value={newBorrowerData.contactNumber}
-                        onChange={(e) => setNewBorrowerData({ ...newBorrowerData, contactNumber: e.target.value })}
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password" // New input for password
-                        value={newBorrowerData.password}
-                        onChange={(e) => setNewBorrowerData({ ...newBorrowerData, password: e.target.value })}
-                    />
-                    <button onClick={handleAddBorrower}>Add</button>
-                </div>
-            )}
-            <ul>
+        <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Borrower Management</h2>
+            <ul style={{ listStyleType: 'none', padding: 0 }}>
                 {borrowers.map((borrower) => (
-                    <li key={borrower.id}>
+                    <li key={borrower.id} style={{ backgroundColor: '#f0f0f0', borderRadius: '5px', marginBottom: '10px', padding: '10px' }}>
                         <div>
                             <strong>Name:</strong> {borrower.name}<br />
                             <strong>Email:</strong> {borrower.email}<br />
                             <strong>Contact Number:</strong> {borrower.contactNumber}<br />
                             <strong>Book ID:</strong> {borrower.bookid}<br />
                         </div>
-                        <button onClick={() => handleRemoveBorrower(borrower.id)}>Remove</button>
+                        <button onClick={() => handleRemoveBorrower(borrower.id)} style={{ backgroundColor: 'red', color: '#fff', border: 'none', borderRadius: '5px', padding: '5px 10px', cursor: 'pointer' }}>Remove</button>
                     </li>
                 ))}
             </ul>
