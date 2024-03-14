@@ -12,12 +12,13 @@ import Settings from './component/Settings';
 import NormalUserRegister from './component/NormalUserRegister';
 import AdminRegister from './component/AdminRegister';
 import { useAuthState } from './component/AuthState';
+import Logout from './component/Logout';
 
 function App() {
   const { isBorrowerLoggedIn, setIsBorrowerLoggedIn, isUserAdminLoggedIn, setIsAdminLoggedIn } = useAuthState();
   return (
     <div style={{
-      backgroundImage: 'url("https://i0.wp.com/www.studentprojects.live/wp-content/uploads/2022/02/Library-Management-System.jpg?fit=2057%2C1206&ssl=1")',
+      backgroundImage: 'url("https://www.pixel-studios.com/blog/wp-content/uploads/2018/12/012-1200x600.jpg")',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
@@ -39,6 +40,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path='/normal-user-registration' element={<NormalUserRegister />}/>
           <Route path='/admin-registration' element={<AdminRegister />}/>
+          <Route path='/logout' element={<Logout />}/>
         </Routes>
       </Router>
     </div>

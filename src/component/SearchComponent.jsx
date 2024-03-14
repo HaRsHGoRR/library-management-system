@@ -60,9 +60,10 @@ const SearchComponent = () => {
     useEffect(() => {
         console.log("Search results:", searchResults);
     }, [searchResults]);
-
     if (!isBorrowerLoggedIn) {
-        return (<div>Please Login</div>);
+        alert('Please Login');
+        window.location.href = 'http://localhost:3000'; // Redirect back to localhost:3000 after the alert is closed
+        return <div>Please Login</div>;
     }
 
     return (
@@ -92,7 +93,7 @@ const SearchComponent = () => {
         <div>
             <strong>{book.title}</strong> by {book.author}
             {book.available && <button onClick={() => handlePickBook(book.id)} style={{ marginLeft: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer' }}>Pick</button>}
-            {!book.available && <span style={{ marginLeft: '10px', color: 'red' }}>Book not available</span>}
+            {!book.available && <span style={{ marginLeft: '10px', color: 'red' }}>Book added</span>}
         </div>
     </li>
 ))}

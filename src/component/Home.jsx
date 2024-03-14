@@ -3,8 +3,19 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
   const loggedin = sessionStorage.getItem('isBorrowerLoggedIn');
+  const handleLogout = () => {
+    // Clear the logged-in status
+    sessionStorage.setItem('isBorrowerLoggedIn', 'false');
+    // Redirect to the login page
+    window.location.href = 'http://localhost:3000/logout';
+};
+
+
+  
   if (!loggedin) {
-    return (<div>Please Login</div>);
+    alert('Please Login');
+    window.location.href = 'http://localhost:3000'; // Redirect back to localhost:3000 after the alert is closed
+    return <div>Please Login</div>;
   }
 
   const containerStyle = {
@@ -58,6 +69,10 @@ const Home = () => {
         <button style={buttonStyle}>
           <Link to="/admin-panel" style={{ color: '#fff', textDecoration: 'none' }}>Admin Panel</Link>
         </button>
+      </div>
+      {/* Logout button */}
+      <div>
+        <button onClick={handleLogout} style={buttonStyle}>Logout</button>
       </div>
     </div>
   );
