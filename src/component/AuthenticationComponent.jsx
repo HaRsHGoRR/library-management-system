@@ -121,11 +121,14 @@ const AuthenticationComponent = () => {
     };
 
     return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+            <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', backdropFilter: 'blur(2px)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', width: '800px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h2 style={{ marginBottom: '20px', color: '#007bff' }}>Authentication</h2>
+            <h2 style={{ marginBottom: '20px', color: '#fff' }}>Authentication</h2>
+
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '800px' }}>
                 {showBorrowerLoginForm && (
-                    <div style={{ backgroundColor: '#f0f0f0', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px', marginRight: '20px', transformStyle: 'preserve-3d', transform: showBorrowerRegistration ? 'rotateY(180deg)' : 'none', transition: 'transform 0.8s' }}>
+                    <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.6)',backdropFilter: 'blur(2px)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px', marginRight: '20px', transformStyle: 'preserve-3d', transform: showBorrowerRegistration ? 'rotateY(180deg)' : 'none', transition: 'transform 0.8s' }}>
                         <h3 style={{ marginBottom: '10px', color: '#007bff' }}>Borrower Login</h3>
                         <form onSubmit={handleBorrowerLogin} style={{ display: 'flex', flexDirection: 'column' }}>
                             <input type="email" name="email" placeholder="Email" value={borrowerLoginData.email} onChange={handleBorrowerLoginInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
@@ -136,7 +139,7 @@ const AuthenticationComponent = () => {
                     </div>
                 )}
                 {showBorrowerRegistration && (
-                    <div style={{ backgroundColor: '#f0f0f0', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px', marginRight: '20px', transformStyle: 'preserve-3d', transform: showBorrowerLoginForm ? 'rotateY(180deg)' : 'none', transition: 'transform 0.8s' }}>
+                    <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.6)',backdropFilter: 'blur(2px)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px', marginRight: '20px', transformStyle: 'preserve-3d', transform: showBorrowerLoginForm ? 'rotateY(180deg)' : 'none', transition: 'transform 0.8s' }}>
                         <h3 style={{ marginBottom: '10px', color: '#007bff' }}>Borrower Registration</h3>
                         <form onSubmit={handleBorrowerRegistration} style={{ display: 'flex', flexDirection: 'column' }}>
                             <input type="text" name="name" placeholder="Name" value={borrowerRegistrationData.name} onChange={handleBorrowerRegistrationInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
@@ -148,7 +151,7 @@ const AuthenticationComponent = () => {
                         </form>
                     </div>
                 )}
-                <div style={{ backgroundColor: '#f0f0f0', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px' }}>
+                <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.6)',backdropFilter: 'blur(2px)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px' }}>
                     <h3 style={{ marginBottom: '10px', color: '#007bff' }}>Admin Login</h3>
                     <form onSubmit={handleAdminLogin} style={{ display: 'flex', flexDirection: 'column' }}>
                         <input type="email" name="email" placeholder="Email" value={adminLoginData.email} onChange={handleAdminInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
@@ -161,6 +164,8 @@ const AuthenticationComponent = () => {
             <div style={{ ...toastStyle }}>
                 {toastMessage}
             </div>
+        </div>
+        </div>
         </div>
     );
 };

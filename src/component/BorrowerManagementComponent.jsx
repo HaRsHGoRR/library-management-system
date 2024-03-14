@@ -37,7 +37,7 @@ const BorrowerManagementComponent = () => {
     };
 
     if (loading) {
-        return <div style={{ textAlign: 'center', marginTop: '20px' }}>Loading...</div>;
+        return <div style={{ textAlign: 'center', marginTop: '20px', color: '#fff' }}>Loading...</div>;
     }
 
     if (error) {
@@ -45,11 +45,12 @@ const BorrowerManagementComponent = () => {
     }
 
     return (
-        <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Borrower Management</h2>
+        <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px', backgroundColor: 'rgba(0, 0, 0, 0.7)', backdropFilter: 'blur(2px)' }}>
+            <h2 style={{ textAlign: 'center', marginBottom: '20px', color: '#fff' }}>Borrower Management</h2>
             <ul style={{ listStyleType: 'none', padding: 0 }}>
                 {borrowers.map((borrower) => (
-                    <li key={borrower.id} style={{ backgroundColor: '#f0f0f0', borderRadius: '5px', marginBottom: '10px', padding: '10px' }}>
+                    <li key={borrower.id} style={{ backgroundColor: 'rgba(128, 128, 128, 0.5)', borderRadius: '5px', marginBottom: '10px', padding: '10px', color: '#f0f0f0' }}>
+
                         <div>
                             <strong>Name:</strong> {borrower.name}<br />
                             <strong>Email:</strong> {borrower.email}<br />

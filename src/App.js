@@ -16,21 +16,32 @@ import { useAuthState } from './component/AuthState';
 function App() {
   const { isBorrowerLoggedIn, setIsBorrowerLoggedIn, isUserAdminLoggedIn, setIsAdminLoggedIn } = useAuthState();
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<AuthenticationComponent />} />
-        <Route path="/book-management" element={<BookManagementComponent />} />
-        <Route path="/borrower-management" element={<BorrowerManagementComponent />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/search" element={<SearchComponent />} />
-        {/* <Route path="/dashboard" element={<DashboardComponent />} /> */}
-        <Route path="/admin-panel" element={<AdminPanelComponent />} />
-        <Route path="/notification-settings" element={<NotificationSettings />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path='/normal-user-registration' element={<NormalUserRegister />}/>
-        <Route path='/admin-registration' element={<AdminRegister />}/>
-      </Routes>
-    </Router>
+    <div style={{
+      backgroundImage: 'url("https://i0.wp.com/www.studentprojects.live/wp-content/uploads/2022/02/Library-Management-System.jpg?fit=2057%2C1206&ssl=1")',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      width: '100vw',
+      height: '100vh',
+      position: 'fixed',
+      overflow: 'auto'
+    }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<AuthenticationComponent />} />
+          <Route path="/book-management" element={<BookManagementComponent />} />
+          <Route path="/borrower-management" element={<BorrowerManagementComponent />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/search" element={<SearchComponent />} />
+          {/* <Route path="/dashboard" element={<DashboardComponent />} /> */}
+          <Route path="/admin-panel" element={<AdminPanelComponent />} />
+          <Route path="/notification-settings" element={<NotificationSettings />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path='/normal-user-registration' element={<NormalUserRegister />}/>
+          <Route path='/admin-registration' element={<AdminRegister />}/>
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
