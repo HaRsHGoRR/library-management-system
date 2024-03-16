@@ -4,7 +4,7 @@ import { useAuthState } from './AuthState';
 import { Link } from 'react-router-dom';
 
 const AuthenticationComponent = () => {
-    const loggedin = sessionStorage.getItem('isBorrowerLoggedIn');
+    const loggedin = sessionStorage.getItem('isBorrowerLoggedIn') === 'true';
     const { isBorrowerLoggedIn, setIsBorrowerLoggedIn, isUserAdminLoggedIn, setIsAdminLoggedIn } = useAuthState();
 
     const [borrowerLoginData, setBorrowerLoginData] = useState({ email: '', password: '' });

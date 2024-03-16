@@ -2,13 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const loggedin = sessionStorage.getItem('isBorrowerLoggedIn');
+  const loggedin = sessionStorage.getItem('isBorrowerLoggedIn') === 'true';
   const handleLogout = () => {
     // Clear the logged-in status
+    console.log("Logging out...");
     sessionStorage.setItem('isBorrowerLoggedIn', 'false');
-    // Redirect to the login page
+    console.log("isBorrowerLoggedIn set to false in sessionStorage.");
+    // Redirect to the logout component/page
     window.location.href = 'http://localhost:3000/logout';
+    console.log("Redirecting to logout page...");
 };
+
+
 
 
   
