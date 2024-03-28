@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 const AuthenticationComponent = () => {
     const loggedin = sessionStorage.getItem('isBorrowerLoggedIn') === 'true';
+    const aloggedin = sessionStorage.getItem('isAdminLoggedIn') === 'true';
     const { isBorrowerLoggedIn, setIsBorrowerLoggedIn, isUserAdminLoggedIn, setIsAdminLoggedIn } = useAuthState();
 
     const [borrowerLoginData, setBorrowerLoginData] = useState({ email: '', password: '' });
@@ -59,7 +60,7 @@ const AuthenticationComponent = () => {
             }
         } catch (error) {
             console.error('Borrower login failed:', error);
-            showToast('Error logging in', 'error');
+            showToast('Error logging in check email or password', 'error');
         }
     };
 
@@ -91,6 +92,8 @@ const AuthenticationComponent = () => {
             if (response.data && response.data.password === adminLoginData.password) {
                 setIsAdminLoggedIn(true);
                 setIsBorrowerLoggedIn(false);
+                sessionStorage.setItem('isAdminLoggedIn', 'true');
+
                 showToast('Admin login successful', 'success');
             } else {
                 showToast('Invalid credentials', 'error');
@@ -120,62 +123,63 @@ const AuthenticationComponent = () => {
         setShowBorrowerRegistration(!showBorrowerRegistration);
         setShowBorrowerLoginForm(!showBorrowerLoginForm);
     };
-    if (loggedin) {
+    if (loggedin || aloggedin) {
+        console.log(loggedin)
+        console.log(aloggedin)
         window.location.href = 'http://localhost:3000/home'; // Redirect to Home page if already logged in
         return null; // Return null to prevent further rendering
-      }
-    
+    }
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
             <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', backdropFilter: 'blur(2px)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', width: '800px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h2 style={{ marginBottom: '20px', color: '#fff' }}>Welcome To Library!
-            
-            <br>
-            </br>
-            <br></br>
-            Please Login OR Register</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <h2 style={{ marginBottom: '20px', color: '#fff' }}>Welcome To Library!
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: '800px' }}>
-                {showBorrowerLoginForm && (
-                    <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.4)',backdropFilter: 'blur(2px)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px', marginRight: '20px', transformStyle: 'preserve-3d', transform: showBorrowerRegistration ? 'rotateY(180deg)' : 'none', transition: 'transform 0.8s' }}>
-                        <h3 style={{ marginBottom: '10px', color: '#007bff' }}>Borrower Login</h3>
-                        <form onSubmit={handleBorrowerLogin} style={{ display: 'flex', flexDirection: 'column' }}>
-                            <input type="email" name="email" placeholder="Email" value={borrowerLoginData.email} onChange={handleBorrowerLoginInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
-                            <input type="password" name="password" placeholder="Password" value={borrowerLoginData.password} onChange={handleBorrowerLoginInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
-                            <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
-                            <p style={{ marginTop: '10px', fontSize: '14px', color: '#007bff', cursor: 'pointer' }} onClick={handleShowRegistration}>Not registered? Register here.</p>
-                        </form>
+                        <br>
+                        </br>
+                        <br></br>
+                        Please Login OR Register</h2>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '800px' }}>
+                        {showBorrowerLoginForm && (
+                            <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.4)', backdropFilter: 'blur(2px)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px', marginRight: '20px', transformStyle: 'preserve-3d', transform: showBorrowerRegistration ? 'rotateY(180deg)' : 'none', transition: 'transform 0.8s' }}>
+                                <h3 style={{ marginBottom: '10px', color: '#007bff' }}>Borrower Login</h3>
+                                <form onSubmit={handleBorrowerLogin} style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <input type="email" name="email" placeholder="Email" value={borrowerLoginData.email} onChange={handleBorrowerLoginInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                                    <input type="password" name="password" placeholder="Password" value={borrowerLoginData.password} onChange={handleBorrowerLoginInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                                    <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
+                                    <p style={{ marginTop: '10px', fontSize: '14px', color: '#007bff', cursor: 'pointer' }} onClick={handleShowRegistration}>Not registered? Register here.</p>
+                                </form>
+                            </div>
+                        )}
+                        {showBorrowerRegistration && (
+                            <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.4)', backdropFilter: 'blur(2px)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px', marginRight: '20px', transformStyle: 'preserve-3d', transform: showBorrowerLoginForm ? 'rotateY(180deg)' : 'none', transition: 'transform 0.8s' }}>
+                                <h3 style={{ marginBottom: '10px', color: '#007bff' }}>Borrower Registration</h3>
+                                <form onSubmit={handleBorrowerRegistration} style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <input type="text" name="name" placeholder="Name" value={borrowerRegistrationData.name} onChange={handleBorrowerRegistrationInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                                    <input type="email" name="email" placeholder="Email" value={borrowerRegistrationData.email} onChange={handleBorrowerRegistrationInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                                    <input type="text" name="contactNumber" placeholder="Contact Number" value={borrowerRegistrationData.contactNumber} onChange={handleBorrowerRegistrationInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                                    <input type="password" name="password" placeholder="Password" value={borrowerRegistrationData.password} onChange={handleBorrowerRegistrationInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                                    <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>Register</button>
+                                    <p style={{ marginTop: '10px', fontSize: '14px', color: '#007bff', cursor: 'pointer' }} onClick={handleShowRegistration}>Click here to login</p>
+                                </form>
+                            </div>
+                        )}
+                        <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.4)', backdropFilter: 'blur(2px)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px' }}>
+                            <h3 style={{ marginBottom: '10px', color: '#007bff' }}>Admin Login</h3>
+                            <form onSubmit={handleAdminLogin} style={{ display: 'flex', flexDirection: 'column' }}>
+                                <input type="email" name="email" placeholder="Email" value={adminLoginData.email} onChange={handleAdminInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                                <input type="password" name="password" placeholder="Password" value={adminLoginData.password} onChange={handleAdminInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                                <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
+                            </form>
+                        </div>
                     </div>
-                )}
-                {showBorrowerRegistration && (
-                    <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.4)',backdropFilter: 'blur(2px)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px', marginRight: '20px', transformStyle: 'preserve-3d', transform: showBorrowerLoginForm ? 'rotateY(180deg)' : 'none', transition: 'transform 0.8s' }}>
-                        <h3 style={{ marginBottom: '10px', color: '#007bff' }}>Borrower Registration</h3>
-                        <form onSubmit={handleBorrowerRegistration} style={{ display: 'flex', flexDirection: 'column' }}>
-                            <input type="text" name="name" placeholder="Name" value={borrowerRegistrationData.name} onChange={handleBorrowerRegistrationInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
-                            <input type="email" name="email" placeholder="Email" value={borrowerRegistrationData.email} onChange={handleBorrowerRegistrationInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
-                            <input type="text" name="contactNumber" placeholder="Contact Number" value={borrowerRegistrationData.contactNumber} onChange={handleBorrowerRegistrationInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
-                            <input type="password" name="password" placeholder="Password" value={borrowerRegistrationData.password} onChange={handleBorrowerRegistrationInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
-                            <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>Register</button>
-                            <p style={{ marginTop: '10px', fontSize: '14px', color: '#007bff', cursor: 'pointer' }} onClick={handleShowRegistration}>Click here to login</p>
-                        </form>
+                    <Link to="/home" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', textDecoration: 'none' }}>Go to Home</Link>
+                    <div style={{ ...toastStyle }}>
+                        {toastMessage}
                     </div>
-                )}
-                <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.4)',backdropFilter: 'blur(2px)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px', padding: '20px', marginBottom: '20px', width: '380px' }}>
-                    <h3 style={{ marginBottom: '10px', color: '#007bff' }}>Admin Login</h3>
-                    <form onSubmit={handleAdminLogin} style={{ display: 'flex', flexDirection: 'column' }}>
-                        <input type="email" name="email" placeholder="Email" value={adminLoginData.email} onChange={handleAdminInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
-                        <input type="password" name="password" placeholder="Password" value={adminLoginData.password} onChange={handleAdminInputChange} style={{ marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
-                        <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
-                    </form>
                 </div>
             </div>
-            <Link to="/home" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', textDecoration: 'none' }}>Go to Home</Link>
-            <div style={{ ...toastStyle }}>
-                {toastMessage}
-            </div>
-        </div>
-        </div>
         </div>
     );
 };

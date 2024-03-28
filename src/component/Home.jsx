@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
   const loggedin = sessionStorage.getItem('isBorrowerLoggedIn') === 'true';
+  const aloggedin = sessionStorage.getItem('isAdminLoggedIn') === 'true';
   const handleLogout = () => {
     // Clear the logged-in status
     console.log("Logging out...");
     sessionStorage.setItem('isBorrowerLoggedIn', 'false');
+    sessionStorage.setItem('isAdminLoggedIn', 'false');
     console.log("isBorrowerLoggedIn set to false in sessionStorage.");
     // Redirect to the logout component/page
     window.location.href = 'http://localhost:3000/logout';
@@ -17,7 +19,7 @@ const Home = () => {
 
 
   
-  if (!loggedin) {
+  if (!loggedin && !aloggedin) {
     alert('Please Login');
     window.location.href = 'http://localhost:3000'; // Redirect back to localhost:3000 after the alert is closed
     return <div>Please Login</div>;
@@ -70,11 +72,13 @@ const Home = () => {
           <Link to="/search" style={{ color: '#fff', textDecoration: 'none' }}>Search Books</Link>
         </button>
       </div>
+      {aloggedin && (
       <div>
         <button style={buttonStyle}>
           <Link to="/admin-panel" style={{ color: '#fff', textDecoration: 'none' }}>Admin Panel</Link>
         </button>
       </div>
+           )}
       {/* Logout button */}
       <div>
         <button onClick={handleLogout} style={buttonStyle}>Logout</button>

@@ -3,13 +3,13 @@ import BookManagementComponent from "./BookManagementComponent";
 import BorrowerManagementComponent from "./BorrowerManagementComponent";
 
 const AdminPanelComponent = () => {
-  const loggedin = sessionStorage.getItem('isBorrowerLoggedIn');
-  if (!loggedin) {
+  const aloggedin = sessionStorage.getItem('isAdminLoggedIn');
+  if (!aloggedin) {
     alert('Please Login');
     window.location.href = 'http://localhost:3000'; // Redirect back to localhost:3000 after the alert is closed
     return <div>Please Login</div>;
 }
-  if(!loggedin)
+  if(!aloggedin)
   {
     return(<>Please Login</>)
   }
